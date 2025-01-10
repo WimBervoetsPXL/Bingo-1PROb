@@ -150,25 +150,29 @@ namespace Bingo
             bingoNumbersListBox.Items.Add(item);
             bingoNumbersListBox.ScrollIntoView(item);
 
-            if(CheckIfNumberExistsOnCard(ref _player1Card, randomNumber))
+            if(CheckIfNumberExistsOnCard(ref _player1Card, randomNumber, out int row1, out int col1))
             {
-                if (CheckFullRowOrColumn(ref _player1Card))
+                if (CheckFullRowOrColumn(ref _player1Card, row1, col1))
                 {
-                    //Player1 won!
+                    _timer.Stop();
+                    MessageBox.Show("Speler 1 heeft gewonnen!");
                 }
             }
 
-            if (CheckIfNumberExistsOnCard(ref _player2Card, randomNumber))
+            if (CheckIfNumberExistsOnCard(ref _player2Card, randomNumber, out int row2, out int col2))
             {
-                if (CheckFullRowOrColumn(ref _player2Card))
+                if (CheckFullRowOrColumn(ref _player2Card, row2, col2))
                 {
-                    //Player2 won!
+                    _timer.Stop();
+                    MessageBox.Show("Speler 2 heeft gewonnen!");
                 }
             }
         }
 
-        private bool CheckIfNumberExistsOnCard(ref Label[,] playerCard, int numberToCheck)
+        private bool CheckIfNumberExistsOnCard(ref Label[,] playerCard, int numberToCheck, out int foundInRow, out int foundInCol)
         {
+            foundInRow = 0;
+            foundInCol = 0;
             for (int row = 0; row < playerCard.GetLength(0); row++)
             {
                 for (int col = 0; col < playerCard.GetLength(1); col++)
@@ -178,6 +182,8 @@ namespace Bingo
                         && playerCard[row, col].Content.ToString().Equals(numberToCheck.ToString()))
                     {
                         playerCard[row, col].Background = Brushes.Red;
+                        foundInRow = row;
+                        foundInCol = col;
                         return true;
                     }
                 }
@@ -186,10 +192,52 @@ namespace Bingo
             return false;
         }
 
-        private bool CheckFullRowOrColumn(ref Label[,] player1Card)
+        private bool CheckFullRowOrColumn(ref Label[,] playerCard, int checkRow, int checkCol)
         {
+            //Check full row:
 
+            bool fullRow = true;
 
+            for(int col = 0; col < playerCard.GetLength(1);col++)
+            {
+                if(playerCard[checkRow, col] != null)
+                {
+                    int content = int.Parse(playerCard[checkRow, col].Content.ToString());
+                    if (!(_bingoNumbers.Contains(content)))
+                    {
+                        fullRow = false;
+                        break;
+                    }
+                }
+            }
+
+            if(fullRow)
+            {
+                return true;
+            }
+    
+
+            //Check full column
+            bool fullCol = true;
+
+            for (int row = 0; row < playerCard.GetLength(0); row++)
+            {
+                if (playerCard[row, checkCol] != null)
+                {
+                    int content = int.Parse(playerCard[row, checkCol].Content.ToString());
+                    if (!(_bingoNumbers.Contains(content)))
+                    {
+                        fullCol = false;
+                        break;
+                    }
+                }
+            }
+
+            if (fullCol)
+            {
+                return true;
+            }
+            
 
             return false;
         }
