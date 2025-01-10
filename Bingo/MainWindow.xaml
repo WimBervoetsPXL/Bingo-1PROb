@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Bingo"
         mc:Ignorable="d"
-        Title="B i n g o" Height="850" Width="1200" FontSize="36">
+        Title="B i n g o" Height="650" Width="1400" FontSize="36">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="Start spel" Click="OnStartGameClicked"/>
         </Menu>
-        <ListBox DockPanel.Dock="Right" Width="200"/>
-        <Grid x:Name="player1Grid">
+
+        <Grid x:Name="player1Grid" DockPanel.Dock="Left" Width="600">
             <Grid.RowDefinitions>
                 <RowDefinition/>
                 <RowDefinition/>
@@ -26,9 +26,33 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="2" Grid.Row="2" Source="/logoPXL.png"/>
+            <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="1">
+                <Image  Source="/logoPXL.png"/>
+            </Border>
 
-            
         </Grid>
+
+        <Grid x:Name="player2Grid" DockPanel.Dock="Right" Width="600">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="2" Grid.Row="2" BorderBrush="Black" BorderThickness="1">
+                <Image  Source="/logoPXL.png"/>
+            </Border>
+
+        </Grid>
+
+        <ListBox DockPanel.Dock="Right" x:Name="bingoNumbersListBox"/>
     </DockPanel>
 </Window>
